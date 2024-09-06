@@ -142,15 +142,17 @@ namespace Library_Management_System.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteConfirm(Guid id)
         {
-            var Member = await _context.Members.SingleOrDefaultAsync(m => m.MemberID.Equals(id));
-            if (Member == null)
+            var member = await _context.Members.SingleOrDefaultAsync(m => m.MemberID == id);
+
+            if (member == null)
             {
                 return NotFound();
             }
 
-             _context.Remove(Member);
+            _context.Members.Remove(member);
             await _context.SaveChangesAsync();
-            return View();
+
+            return RedirectToAction(nameof(Index)); // Redirect to the Index or relevant page
         }
 
 
